@@ -60,8 +60,21 @@ def collect_links_day(keyword: str, day: date):
     for a in soup.select("a[href*='n.news.naver.com/article']"):
         title = a.get("title") or a.text.strip()
         href = a.get("href", "")
-        if not is_financial_title(title):
+        flag = is_financial_title(title)
+
+        key = extract_oid_aid_key(href)
+        if not key:
             continue
+
+        rows.append({
+        "key": key,
+        "keyword": keyword,
+        "title": title,
+        "url": href,
+        "date": ds,
+        "is_financial": int(flag)
+        })
+
         key = extract_oid_aid_key(href)
         if not key:
             continue
@@ -104,3 +117,17 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#%%
+import pandas as pd
+
+df = pd.read_csv("../data/NAVER/article/articles_2025_financial.csv")
+
+print("총 기사 수:", len(df))
+print("is_financial=1 비율:", df["is_financial"].mean())
+
+daily = df.groupby("date").size()
+print("0건인 날짜 수:", (daily==0).sum())  # 원래 거의 0이 뜰 거라 의미 없음
+print("1개 미만(=0) 날짜 수:", (daily<1).sum())
+print("하루 평균:", daily.mean())
+print("하루 중앙값:", daily.median())
