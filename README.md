@@ -2,9 +2,11 @@
 
 비타민 26기 겨울 프로젝트  
 KOSPI 기반 공포·탐욕 지표 및 오실레이터 분석
+NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 만들어보자!
 
 ## 📌 Project Overview
-- KOSPI 지수와 시장 심리 지표(Fear & Greed, Oscillator)를 활용한 분석
+- KOSPI 지수와 시장 심리 지표(Fear & Greed)를 활용한 분석
+- NAVER 기사 중 핵심 키워드 선정 후 댓글 감성분석을 모델에 추가
 - 시계열 데이터 기반 점수화 및 예측 실험
 
 ## 📂 Directory Structure
