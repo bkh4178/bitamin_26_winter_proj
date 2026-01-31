@@ -39,9 +39,9 @@ data/ 폴더는 GitHub에 올라가지 않으므로, 실행하면 로컬에 결�
 
 2.	댓글 수집
 
-* 실행: Naver_comments/comments_crawling.py
+* 실행: Naver_comments/comments_crawling_adj.py
 * 입력: data/NAVER/article/articles_2025_financial.csv
-* 출력: data/NAVER/comments/comments_2025.csv
+* 출력: data/NAVER/comments/comments_2025_adj.csv
 
 ## ⚠️ Notes
 - `data/` 폴더의 csv 파일은 GitHub에 업로드되지 않습니다.
