@@ -10,9 +10,11 @@ KOSPI 기반 공포·탐욕 지표 및 오실레이터 분석
 ## 📂 Directory Structure
 ```text
 26_winter_proj/
-├─ data/           # 원본 데이터 (gitignore, 로컬 전용)
+├── data/
+│   ├── KFG/          # Fear & Greed 관련 지표 데이터 (gitignore, 로컬 전용)
+│   └── NAVER/        # 네이버 댓글/텍스트 데이터 (gitignore, 로컬 전용)
 ├─ Naver/          # 네이버 댓글 분석
-├─ Oscillator/     # 오실레이터 분석 노트북
+├─ Oscillator/     # 오실레이터 분석
 ├─ documents/      # 참고 논문 및 자료
 ├─ README.md
 └─ .gitignore
