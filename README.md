@@ -8,17 +8,19 @@ KOSPI 기반 공포·탐욕 지표 및 오실레이터 분석
 - 시계열 데이터 기반 점수화 및 예측 실험
 
 ## 📂 Directory Structure
+```text
 26_winter_proj/
-├─ data/          # 원본 데이터 (gitignore, 로컬 전용)
-├─ Naver/         # 네이버 댓글 분석
-├─ Oscillator/    # 오실레이터 분석 노트북
-├─ documents/     # 참고 논문 및 자료
+├─ data/           # 원본 데이터 (gitignore, 로컬 전용)
+├─ Naver/          # 네이버 댓글 분석
+├─ Oscillator/     # 오실레이터 분석 노트북
+├─ documents/      # 참고 논문 및 자료
 ├─ README.md
 └─ .gitignore
+```
 
 ## 🧪 Environment
 - Python 3.x
-- pandas, numpy, matplotlib, scikit-learn
+- pandas, numpy, matplotlib, scikit-learn, pykrx
 
 ## ⚠️ Notes
 - `data/` 폴더의 csv 파일은 GitHub에 업로드되지 않습니다.
