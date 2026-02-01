@@ -14,13 +14,6 @@ HEADERS_BASE = {
     "User-Agent": "Mozilla/5.0"
 }
 
-# 금융 맥락 키워드
-FIN_KEYWORDS = [
-    "증시","주식","코스피","코스닥","시장","지수",
-    "투자","매도","매수","외국인","기관","개인"
-]
-
-
 def extract_oid_aid_key(url: str):
     """네이버 뉴스 URL에서 oid와 aid를 추출해 고유 기사 key 생성"""
     m = re.search(r"/article/(\d+)/(\d+)", url)
@@ -29,9 +22,9 @@ def extract_oid_aid_key(url: str):
     return f"{m.group(1)}_{m.group(2)}"
 
 
-def is_financial_title(title: str) -> bool:
+def is_financial_title(title: str, fin_keywords) -> bool:
     """기사 제목에 금융 관련 키워드가 포함되어 있는지 여부 판단"""
-    return any(k in title for k in FIN_KEYWORDS)
+    return any(k in title for k in fin_keywords)
 
 
 def day_ranges(year: int):
@@ -46,7 +39,7 @@ def day_ranges(year: int):
     return days
 
 
-def collect_links_day(keyword: str, day: date, headers, sleep_sec:float):
+def collect_links_day(keyword: str, day: date, headers, sleep_sec:float, fin_keywords=None):
     """특정 날짜와 키워드에 대해 네이버 뉴스 기사 링크 목록 수집"""
     q = quote(keyword)
     ds = day.strftime("%Y.%m.%d")
@@ -63,7 +56,7 @@ def collect_links_day(keyword: str, day: date, headers, sleep_sec:float):
     for a in soup.select("a[href*='n.news.naver.com/article']"):
         title = a.get("title") or a.text.strip()
         href = a.get("href", "")
-        flag = is_financial_title(title)
+        flag = is_financial_title(title, fin_keywords)
 
         key = extract_oid_aid_key(href)
         if not key:

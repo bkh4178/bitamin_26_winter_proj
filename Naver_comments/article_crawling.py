@@ -27,6 +27,11 @@ SLEEP_SEC = 0.3
 OUTPUT_DIR = "../data/NAVER/article"
 OUTPUT_PATH = f"{OUTPUT_DIR}/articles_2025_financial.csv"
 
+# 금융 맥락 키워드
+FIN_KEYWORDS = [
+    "증시","주식","코스피","코스닥","시장","지수",
+    "투자","매도","매수","외국인","기관","개인"
+]
 
 # -----------------------------
 # 메인
@@ -43,7 +48,7 @@ def main():
     for d in days:
         print(f"\n📅 {d}")
         for kw in KEYWORDS:
-            rows = collect_links_day(kw, d, HEADERS, SLEEP_SEC)
+            rows = collect_links_day(kw, d, HEADERS, SLEEP_SEC, fin_keywords=FIN_KEYWORDS)
             for r in rows:
                 uniq.setdefault(r["key"], r)
 
