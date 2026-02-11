@@ -12,7 +12,7 @@ plt.rcParams["axes.unicode_minus"] = False  # 마이너스 깨짐 방지
 #%%
 
 # 데이터 로드
-df = pd.read_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/NAVER/comments/comments_2024_증시금리.csv")
+df = pd.read_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/NAVER/comments/comments_2023_증시금리.csv")
 
 texts = df["text_raw"].dropna().astype(str)
 
