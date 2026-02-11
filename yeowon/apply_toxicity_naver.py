@@ -1,4 +1,4 @@
-# apply_toxicity_naver_report_all.py
+# apply_toxicity_navert.py
 # Python 3.9 compatible
 
 import argparse
@@ -74,7 +74,7 @@ def summarize_thresholds(df: pd.DataFrame, mode: str, tau: float, hard_tau: floa
         print(f"kept: {kept} | dropped: {dropped}")
     else:
         hard_dropped = int((~df["keep"]).sum())
-        print("weight rule: weight=(1-tox)^gamma")
+        print(f"weight rule: weight=(1-tox)^gamma, gamma applied")
         if hard_tau <= 1.0:
             print(f"hard drop rule: empty OR toxicity >= {hard_tau}")
             print(f"hard dropped(keep=False): {hard_dropped} (still saved in CSV, but flagged)")
@@ -89,6 +89,7 @@ def print_examples(df: pd.DataFrame, title: str, sub: pd.DataFrame, show: int = 
     cols = [c for c in cols if c in sub.columns]
     view = sub[cols].head(show).copy()
 
+    # shorten text for console
     def _shorten(s: str, n: int = 120) -> str:
         s = str(s).replace("\n", " ")
         return s if len(s) <= n else s[:n] + "..."
@@ -96,11 +97,15 @@ def print_examples(df: pd.DataFrame, title: str, sub: pd.DataFrame, show: int = 
     if "text_raw" in view.columns:
         view["text_raw"] = view["text_raw"].map(_shorten)
 
+    # prettier printing
     with pd.option_context("display.max_colwidth", 200, "display.width", 120):
         print(view.to_string(index=False))
 
 
 def print_bins(df: pd.DataFrame) -> None:
+    """
+    Show distribution by toxicity bins, and average weight per bin.
+    """
     bins = [0.0, 0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 1.0]
     labels = ["[0,.2)", "[.2,.4)", "[.4,.6)", "[.6,.8)", "[.8,.9)", "[.9,.95)", "[.95,1]"]
 
@@ -126,10 +131,9 @@ def print_bins(df: pd.DataFrame) -> None:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--inp", default="comments_2024.csv")
-    ap.add_argument("--out", default="comments_2024_toxicity.csv")
+    ap.add_argument("--out", default="comments_2024_100_toxicity.csv")
+    ap.add_argument("--n", type=int, default=-1, help="how many rows; -1 means ALL")
 
-    # ✅ -1 (default) means "ALL rows"
-    ap.add_argument("--n", type=int, default=-1, help="how many rows to run; -1 means ALL rows")
 
     ap.add_argument("--model", default="jinkyeongk/kcELECTRA-toxic-detector")
     ap.add_argument("--batch_size", type=int, default=32)
@@ -141,9 +145,10 @@ def main():
     ap.add_argument("--gamma", type=float, default=2.0)
     ap.add_argument("--hard_tau", type=float, default=0.95)
 
-    ap.add_argument("--show", type=int, default=10)
-    ap.add_argument("--save_kept", default="comments_2024_kept.csv")
-    ap.add_argument("--save_dropped", default="comments_2024_dropped.csv")
+    # reporting options
+    ap.add_argument("--show", type=int, default=10, help="how many examples to print per group")
+    ap.add_argument("--save_kept", default="comments_2024_100_kept.csv", help="save keep==True rows")
+    ap.add_argument("--save_dropped", default="comments_2024_100_dropped.csv", help="save keep==False rows")
 
     args = ap.parse_args()
 
@@ -158,11 +163,11 @@ def main():
     if missing:
         raise ValueError(f"Missing columns: {missing}\nColumns: {list(df.columns)}")
 
-    # ✅ apply n only if n > 0
     if args.n is not None and args.n > 0:
         df = df.head(args.n).copy()
     else:
         df = df.copy()
+
 
     # empty handling
     df["text_raw"] = df["text_raw"].fillna("").astype(str)
@@ -185,11 +190,11 @@ def main():
     df["toxicity_score"] = df["toxicity_score"].fillna(0.0).clip(0.0, 1.0)
 
     if args.mode == "drop":
-        df["weight"] = 1.0
+        df["weight"] = 1.0  # drop mode에서는 weight가 크게 의미 없어서 1로 둠(원하면 제거 가능)
         df["keep"] = (~df["is_empty"]) & (df["toxicity_score"] < args.tau)
-
         out_df = df[df["keep"]].copy()
         out_df.to_csv(args.out, index=False, encoding="utf-8-sig")
+
         print(f"[SAVE] scored+filtered kept-only -> {args.out}")
 
     else:
@@ -201,11 +206,10 @@ def main():
             df["keep"] = ~df["is_empty"]
 
         df.loc[df["is_empty"], "weight"] = 0.0
-
         df.to_csv(args.out, index=False, encoding="utf-8-sig")
         print(f"[SAVE] scored + keep/weight flags -> {args.out}")
 
-    # save splits
+    # save kept/dropped splits for inspection
     kept_df = df[df["keep"]].copy()
     dropped_df = df[~df["keep"]].copy()
 
@@ -219,6 +223,7 @@ def main():
     summarize_thresholds(df, args.mode, args.tau, args.hard_tau)
     print_bins(df)
 
+    # examples
     print_examples(df, "MOST TOXIC", df.sort_values("toxicity_score", ascending=False), show=args.show)
     print_examples(df, "LEAST TOXIC (non-empty)", df[~df["is_empty"]].sort_values("toxicity_score"), show=args.show)
     print_examples(df, "DROPPED (keep=False)", dropped_df.sort_values("toxicity_score", ascending=False), show=args.show)
