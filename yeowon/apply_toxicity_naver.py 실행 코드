@@ -1,0 +1,2 @@
+# .py 파일명만 바꿔서 돌리면 됩니다!
+python apply_toxicity_naver.py --inp comments_2023.csv --out comments_2023_toxicity.csv --mode weight --gamma 2.0 --hard_tau 0.95 --show 10 --save_kept comments_2023_kept.csv --save_dropped comments_2023_dropped.csv
