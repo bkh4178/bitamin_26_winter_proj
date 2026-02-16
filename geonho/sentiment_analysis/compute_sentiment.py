@@ -23,7 +23,7 @@ args = parser.parse_args()
 year = args.year
 
 # 파일 경로 설정 (각자 환경에 맞게 수정 필요)
-file_path = f'/Users/user/Desktop/bitamin/26_winter_proj/data/NAVER/final_filtered/comments_stock_clean_{year}.csv'
+file_path = f'/Users/user/Desktop/bitamin/26_winter_proj/data/NAVER/final_filtered/comments_final_stock_only_{year}.csv'
 save_dir = f'/Users/user/Desktop/bitamin/26_winter_proj/data/NAVER/sentiment_scores'
 
 os.makedirs(save_dir, exist_ok=True)
