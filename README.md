@@ -17,9 +17,10 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 │   └── NAVER/
 │     ├─ article/                  # 기사 리스트 CSV
 │     └─ comments/                 # 댓글 CSV
-├─ Naver_comments/                 # 네이버 기사/댓글 수집 및 전처리 코드
-│  ├─ test/                        # 실험/테스트 코드 및 출력물
-├─ Oscillator/     # 오실레이터 분석
+├─ geonho/
+├─ hyowoon/
+├─ pilho/
+├─ yeowon/
 ├─ documents/      # 참고 논문 및 자료
 ├─ README.md
 └─ .gitignore
@@ -33,15 +34,22 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 
 data/ 폴더는 GitHub에 올라가지 않으므로, 실행하면 로컬에 결과 CSV가 생성됩니다.
 
-1.	기사 수집
-* 실행: Naver_comments/article_crawling.py
-* 출력: data/NAVER/article/articles_2025_financial.csv
+1.	7 sub index 수집
 
-2.	댓글 수집
+2.	기사 & 댓글 수집
 
-* 실행: Naver_comments/comments_crawling_adj.py
-* 입력: data/NAVER/article/articles_2025_financial.csv
-* 출력: data/NAVER/comments/comments_2025_adj.csv
+* 실행: Naver_crawling/crawling_naver_{year}.py
+* 출력: data/NAVER/comments/comments_{year}_top5.csv & data/NAVER/article/news_{year}_top5.csv
+
+3.  댓글 필터링
+* 실행 : filtering_final/1_politic_filter.py, 2_apply_toxicity_naver.py, final_filter.py
+* 입력 : raw_comments_data(연도별), comments_political_removed_{year}.csv, comments_toxicity_kept_{year}.csv
+* 출력 : comments_political_removed_{year}.csv, comments_toxicity_kept_{year}.csv, comments_final_stock_only_{year}.csv
+
+4.  댓글 감성분석
+* 실행 : sentiment_analysis/compute_sentiment.py
+* 입력 : comments_final_stock_only_{year}.csv
+* 출력 : comments_sentiment_{year}.csv
 
 ## ⚠️ Notes
 - `data/` 폴더의 csv 파일은 GitHub에 업로드되지 않습니다.
