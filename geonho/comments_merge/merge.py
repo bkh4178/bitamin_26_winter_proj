@@ -30,6 +30,9 @@ print("2023:", len(df_2023))
 print("2024:", len(df_2024))
 print("2025:", len(df_2025))
 
+df_all = pd.concat([df_2023, df_2024, df_2025])
+df_all = df_all.sort_values("date").reset_index(drop=True)
+
 
 def make_daily(df):
     df = df.copy()
@@ -95,12 +98,29 @@ def make_daily(df):
     daily["weight_sq_sum"] = grouped["weight"].apply(lambda x: (x**2).sum())
     daily["effective_n"] = (daily["weight_sum"]**2) / (daily["weight_sq_sum"] + 1e-8)
 
+    # -----------------------------
+    # 3️⃣ Negativity + Relative Change
+    # -----------------------------
+    daily = daily.sort_index()
+    
+    # 절대 부정 강도
+    daily["neg_score"] = daily["neg_mean_w"]
+
+    # 30일 이동평균 대비 변화
+    daily["neg_roll30"] = daily["neg_score"].rolling(30).mean()
+    daily["neg_delta"] = daily["neg_score"] - daily["neg_roll30"]
+
+    # 60일 Z-score (권장)
+    daily["neg_z"] = (
+        (daily["neg_score"] - daily["neg_score"].rolling(60).mean()) /
+        (daily["neg_score"].rolling(60).std() + 1e-8)
+    )
+
     return daily.reset_index()
 
 
-daily_2023 = make_daily(df_2023)
-daily_2024 = make_daily(df_2024)
-daily_2025 = make_daily(df_2025)
+daily_all = make_daily(df_all)
+daily_all = daily_all.dropna().reset_index(drop=True)
 
 
 
