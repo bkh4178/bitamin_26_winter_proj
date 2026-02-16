@@ -1,0 +1,6 @@
+cd /Users/user/Desktop/bitamin/26_winter_proj
+-> 현재 26_winter_proj가 있는 위치라 신경 안 써도 됨
+
+python geonho/summary/main_pipeline.py \
+  --year 2025 \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
