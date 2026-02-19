@@ -14,7 +14,7 @@ def run_stock_filter(year: int):
     # --------------------------
     # 1. 데이터 로딩
     # --------------------------
-    input_file = Path(f"data/NAVER/toxicity/comments_toxicity_kept_{year}.csv")
+    input_file = Path(f"data/NAVER/toxicity/comments_toxicity_kept_{year}_3.csv")
     output_dir = Path("data/NAVER/final_filtered")
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -122,19 +122,19 @@ def run_stock_filter(year: int):
         'support_keywords': [{'word': w, 'count': c, 'percentage': p} for w, c, p in support_keywords],
     }
 
-    with open(output_dir / f"keyword_analysis_result_{year}.json", "w", encoding="utf-8") as f:
+    with open(output_dir / f"keyword_analysis_result_{year}_3.json", "w", encoding="utf-8") as f:
         json.dump(keyword_result, f, ensure_ascii=False, indent=2)
 
-    df.to_csv(output_dir / f"classified_stock_comments_{year}.csv", index=False, encoding="utf-8-sig")
-    stock_df.to_csv(output_dir / f"comments_final_stock_only_{year}.csv", index=False, encoding="utf-8-sig")
+    df.to_csv(output_dir / f"classified_stock_comments_{year}_3.csv", index=False, encoding="utf-8-sig")
+    stock_df.to_csv(output_dir / f"comments_final_stock_only_{year}_3.csv", index=False, encoding="utf-8-sig")
 
     stock_df.drop(columns=['stock_score', 'is_stock'], errors='ignore').to_csv(
-        output_dir / f"comments_stock_clean_{year}.csv",
+        output_dir / f"comments_stock_clean_{year}_3.csv",
         index=False,
         encoding="utf-8-sig"
     )
 
-    other_df.to_csv(output_dir / f"comments_other_{year}.csv", index=False, encoding="utf-8-sig")
+    other_df.to_csv(output_dir / f"comments_other_{year}_3.csv", index=False, encoding="utf-8-sig")
 
     summary = {
         'total_comments': len(df),
@@ -143,7 +143,7 @@ def run_stock_filter(year: int):
         'stock_ratio': len(stock_df) / len(df) * 100,
     }
 
-    with open(output_dir / f"stock_classification_summary_{year}.json", "w", encoding="utf-8") as f:
+    with open(output_dir / f"stock_classification_summary_{year}_3.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
     print("=" * 80)

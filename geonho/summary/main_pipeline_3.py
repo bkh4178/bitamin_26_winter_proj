@@ -1,9 +1,9 @@
 import argparse
 
-from crawling_naver import run_crawling
-from politic_filter import run_politic_filter
-from toxicity_module import run_toxicity
-from stock_filter import run_stock_filter
+from crawling_naver_3 import run_crawling
+from politic_filter_3 import run_politic_filter
+from toxicity_module_3 import run_toxicity
+from stock_filter_3 import run_stock_filter
 
 
 def main():

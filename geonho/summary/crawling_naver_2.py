@@ -14,9 +14,9 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-from utils_crawling import *
+from utils_crawling_2 import *
 
-KEYWORDS = ['CPI', '환율', '달러', '소비자물가지수'] 
+KEYWORDS = ['증시', '국내증시', '주식시장', '금리'] 
 
 SECTION_LIST_ENDPOINT = "https://news.naver.com/section/template/SECTION_ARTICLE_LIST_FOR_LATEST"
 COMMENT_COUNT_ENDPOINT = "https://news.naver.com/section/template/NEWS_COMMENT_COUNT_LIST"
@@ -34,14 +34,14 @@ def run_crawling(
     strict_pubdate: bool = False,
 ):
 
-    start = f"{year}0101"
+    start = f"{year}0520"
     end = f"{year}1231"
 
     Path("data/NAVER/article").mkdir(parents=True, exist_ok=True)
     Path("data/NAVER/comments").mkdir(parents=True, exist_ok=True)
 
-    out_news = f"data/NAVER/article/news_{year}_top{topk}.csv"
-    out_comments = f"data/NAVER/comments/comments_{year}_top{topk}.csv"
+    out_news = f"data/NAVER/article/news_{year}_2_top{topk}.csv"
+    out_comments = f"data/NAVER/comments/comments_{year}_2_top{topk}.csv"
 
     session = make_session()
 
