@@ -55,12 +55,12 @@ df4.head()
 
 #%%
 # sub_index_5,7
-df5 = pd.read_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/sub_index5_7.csv")
+df5 = pd.read_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/sub_index5_7_final.csv")
 df5.columns
 df5 = df5.rename(columns={
     "Unnamed: 0": "date",
-    "VKOSPI_Score": "sub_index5",
-    "Enhanced_JunkScore": "sub_index7"
+    "Score_Fear": "sub_index5",
+    "Final_JunkIndex": "sub_index7"
 })
 df5["date"] = pd.to_datetime(df5["date"])
 df5 = df5[["date", "sub_index5", "sub_index7"]]
@@ -114,12 +114,8 @@ df_sub = df1.merge(df2, on="date", how="outer") \
             .merge(df6, on="date", how="outer")
 
 df_sub = df_sub.sort_values("date")
-
-# 월별 데이터 forward fill
-df_sub[["sub_index5", "sub_index7"]] = \
-    df_sub[["sub_index5", "sub_index7"]].ffill()
-
 df_sub.head()
+df_sub.tail()
 
 #%%
 df_all = kospi.merge(df_sub, on="date", how="left")
@@ -202,4 +198,4 @@ final = final.reset_index(drop=True)
 final.head()
 
 #%%
-final.to_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/final_dataset.csv", index=False)
+final.to_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/KFG_final_dataset.csv", index=False)
