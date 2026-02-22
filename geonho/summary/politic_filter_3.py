@@ -48,7 +48,7 @@ def run_politic_filter(year: int):
     print(f"{year} 정치 키워드 기반 댓글 필터 시작")
     print("=" * 80)
 
-    input_file = f"data/NAVER/comments/comments_{year}_top5.csv"
+    input_file = f"data/NAVER/comments/comments_{year}_3_top5.csv"
     output_dir = "data/NAVER/political_filter"
     os.makedirs(output_dir, exist_ok=True)
 
@@ -72,21 +72,21 @@ def run_politic_filter(year: int):
 
     # 전체 분류 저장
     df.to_csv(
-        f"{output_dir}/comments_{year}_classified.csv",
+        f"{output_dir}/comments_{year}_1_classified.csv",
         index=False,
         encoding="utf-8-sig"
     )
 
     # 정치만
     political_comments.to_csv(
-        f"{output_dir}/comments_{year}_political_only.csv",
+        f"{output_dir}/comments_{year}_3_political_only.csv",
         index=False,
         encoding="utf-8-sig"
     )
 
     # 비정치만
     non_political_comments.to_csv(
-        f"{output_dir}/comments_{year}_non_political_only.csv",
+        f"{output_dir}/comments_{year}_3_non_political_only.csv",
         index=False,
         encoding="utf-8-sig"
     )
@@ -98,7 +98,7 @@ def run_politic_filter(year: int):
     )
 
     cleaned.to_csv(
-        f"{output_dir}/comments_political_removed_{year}.csv",
+        f"{output_dir}/comments_political_removed_{year}_3.csv",
         index=False,
         encoding="utf-8-sig"
     )

@@ -4,3 +4,39 @@ cd /Users/user/Desktop/bitamin/26_winter_proj
 python geonho/summary/main_pipeline.py \
   --year 2025 \
   --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
+
+python geonho/summary/main_pipeline_1.py \
+  --year 2022 \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
+
+python geonho/summary/main_pipeline_2.py \
+  --year 2022 \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
+
+python geonho/summary/main_pipeline_3.py \
+  --year 2022 \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
+
+python geonho/summary/main_pipeline_4.py \
+  --year 2022 \
+  --start_date "0101" \
+  --end_date "0331" \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
+
+python geonho/summary/main_pipeline_4.py \
+  --year 2022 \
+  --start_date "0401" \
+  --end_date "0630" \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
+
+python geonho/summary/main_pipeline_4.py \
+  --year 2022 \
+  --start_date "0701" \
+  --end_date "0930" \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"
+
+python geonho/summary/main_pipeline_4.py \
+  --year 2022 \
+  --start_date "1001" \
+  --end_date "1231" \
+  --comment_template_url "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=default_economy&pool=cbox5&_cv=20260129194411&_callback=jQuery331003873050144477441_1770339247040&lang=ko&country=KR&objectId=news654%2C0000165263&categoryId=&pageSize=20&indexSize=10&groupId=&listType=OBJECT&pageType=more&page=1&initialize=true&followSize=5&userType=&useAltSort=true&replyPageSize=20&sort=FAVORITE&_=1770339247042"

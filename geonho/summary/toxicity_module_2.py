@@ -1,4 +1,3 @@
-
 import argparse
 from pathlib import Path
 from typing import List, Optional
@@ -141,15 +140,15 @@ def run_toxicity(
     print("=" * 80)
 
     # 입력: 정치 필터 제거된 파일
-    inp = Path(f"data/NAVER/political_filter/comments_political_removed_{year}.csv")
+    inp = Path(f"data/NAVER/political_filter/comments_political_removed_{year}_2.csv")
 
     # 출력: toxicity 결과
     out_dir = Path("data/NAVER/toxicity")
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    out_all = out_dir / f"comments_toxicity_{year}.csv"
-    out_kept = out_dir / f"comments_toxicity_kept_{year}.csv"
-    out_dropped = out_dir / f"comments_toxicity_dropped_{year}.csv"
+    out_all = out_dir / f"comments_toxicity_{year}_2.csv"
+    out_kept = out_dir / f"comments_toxicity_kept_{year}_2.csv"
+    out_dropped = out_dir / f"comments_toxicity_dropped_{year}_2.csv"
 
     if not inp.exists():
         raise FileNotFoundError(f"Input not found: {inp}")

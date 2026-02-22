@@ -16,7 +16,7 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-from utils_crawling import *
+from geonho.summary.utils_crawling_1 import *
 
 KEYWORDS = ["증시", "국내증시", "주식시장", "금리"] # 크롤링 대상 키워드, utils_crawling.py에도 동일하게 정의되어 있음. 변경해야 함.
 
