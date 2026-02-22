@@ -5,10 +5,7 @@ import os
 from glob import glob
 
 # sub_index_1
-
 df1 = pd.read_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/sub_index1_momentum.csv")
-df1.columns
-df1.head()
 # 1️⃣ 날짜 컬럼 이름 변경
 df1 = df1.rename(columns={
     "Unnamed: 0": "date",
@@ -20,7 +17,13 @@ df1["date"] = pd.to_datetime(df1["date"])
 
 # 3️⃣ 필요한 컬럼만 남기기
 df1 = df1[["date", "sub_index1"]]
+
+new_row = {'date':pd.to_datetime('2022-05-09'), 'sub_index1' : 26.231305470845367}
+
+df1 = pd.concat([df1, pd.DataFrame([new_row])], ignore_index=True)
+df1 = df1.sort_values("date").reset_index(drop=True)
 df1.head()
+df1.tail()
 
 #%%
 # sub_index_2
@@ -198,4 +201,6 @@ final = final.reset_index(drop=True)
 final.head()
 
 #%%
-final.to_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/KFG_final_dataset.csv", index=False)
+final.to_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/KFG_final_2.csv", index=False)
+
+#%%
