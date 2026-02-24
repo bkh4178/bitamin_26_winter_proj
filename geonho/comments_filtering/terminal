@@ -1,9 +1,0 @@
-python geonho/comments_filtering/toxicity.py \
-  --inp data/NAVER/comments/comments_2025_drop_poli.csv \
-  --out data/NAVER/comments_filter/comments_2025_drop_poli_toxicity.csv \
-  --mode weight \
-  --gamma 2.0 \
-  --hard_tau 0.95 \
-  --show 10 \
-  --save_kept data/NAVER/comments_filter/comments_2025_drop_poli_kept.csv \
-  --save_dropped data/NAVER/comments_filter/comments_2025_drop_poli_dropped.csv
