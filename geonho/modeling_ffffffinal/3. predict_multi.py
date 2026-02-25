@@ -181,8 +181,43 @@ if __name__ == "__main__":
     print("Saved: prediction_multihorizon.csv")
 
 
+#%%
+# ===============================
+# 방향성 분석용 df 로드 (중요)
+# ===============================
+pred_df = pd.read_csv("prediction_multihorizon.csv")
+pred_df["date"] = pd.to_datetime(pred_df["date"])
+pred_df = pred_df.sort_values("date").reset_index(drop=True)
 
+orig_df = pd.read_csv("KFG_with_KFGI.csv")
+orig_df["date"] = pd.to_datetime(orig_df["date"])
 
+# 실제 1일 수익률 merge
+pred_df = pred_df.merge(
+    orig_df[["date", "log_return_t+1"]],
+    on="date",
+    how="left"
+).rename(columns={"log_return_t+1": "actual_1d"})
+
+pred_df = pred_df.dropna().reset_index(drop=True)
+
+# ===============================
+# 신호 정의 (여기서부터 안전)
+# ===============================
+pred_df["signal_1d"] = (pred_df["pred_ret_1d"] > 0).astype(int)
+pred_df["signal_3d"] = (pred_df["pred_ret_3d"] > 0).astype(int)
+pred_df["signal_5d"] = (pred_df["pred_ret_5d"] > 0).astype(int)
+
+th = pred_df["pred_prob_up_1d"].quantile(0.8)
+pred_df["signal_top20"] = (pred_df["pred_prob_up_1d"] >= th).astype(int)
+
+# ===============================
+# 방향성 평가 실행
+# ===============================
+direction_analysis(pred_df["signal_1d"], pred_df["actual_1d"], "1D Strategy")
+direction_analysis(pred_df["signal_3d"], pred_df["actual_1d"], "3D Strategy")
+direction_analysis(pred_df["signal_5d"], pred_df["actual_1d"], "5D Strategy")
+direction_analysis(pred_df["signal_top20"], pred_df["actual_1d"], "Top20 Strategy")
 
 
 
