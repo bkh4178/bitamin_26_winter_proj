@@ -469,3 +469,41 @@ print_performance(final_strategy_df, 'strat_ret_net', f'Hybrid Strategy (Lev {LE
 
 # 결과 확인을 위해 상위 5개 행 출력
 # print(final_strategy_df[['date', 'market_trend', 'weight', 'strat_ret_net']].head())
+
+plt.figure(figsize=(14, 7))
+
+# 누적수익 계산
+cum_market = np.exp(final_strategy_df['actual'].cumsum())
+cum_strategy = np.exp(final_strategy_df['strat_ret_net'].cumsum())
+
+plt.plot(final_strategy_df['date'], cum_market,
+         label='Market (Buy & Hold)', color='gray', alpha=0.6)
+
+plt.plot(final_strategy_df['date'], cum_strategy,
+         label='Final Hybrid Strategy (Net)', color='navy', lw=2)
+
+plt.title("Final Hybrid Strategy (Fee Included) vs Market")
+plt.xlabel("Date")
+plt.ylabel("Cumulative Return")
+plt.legend()
+plt.grid(alpha=0.2)
+plt.show()
+
+
+def drawdown(series):
+    cum = np.exp(series.cumsum())
+    return cum / cum.cummax() - 1
+
+plt.figure(figsize=(14,5))
+plt.plot(final_strategy_df['date'],
+         drawdown(final_strategy_df['actual']),
+         label='Market DD', color='gray')
+
+plt.plot(final_strategy_df['date'],
+         drawdown(final_strategy_df['strat_ret_net']),
+         label='Strategy DD', color='navy')
+
+plt.title("Drawdown Comparison")
+plt.legend()
+plt.grid(alpha=0.2)
+plt.show()
