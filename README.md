@@ -44,19 +44,19 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 
 data/ 폴더는 GitHub에 올라가지 않으므로, 실행하면 로컬에 결과 CSV가 생성됩니다.
 
-1.	7 sub index 수집
+**1.	7 sub index 수집**
 
-2.	기사 & 댓글 수집
+**2.	기사 & 댓글 수집**
 
 * 실행: Naver_crawling/crawling_naver_{year}.py
 * 출력: data/NAVER/comments/comments_{year}_top5.csv & data/NAVER/article/news_{year}_top5.csv
 
-3.  댓글 필터링
+**3.  댓글 필터링**
 * 실행 : filtering_final/1_politic_filter.py, 2_apply_toxicity_naver.py, final_filter.py
 * 입력 : raw_comments_data(연도별), comments_political_removed_{year}.csv, comments_toxicity_kept_{year}.csv
 * 출력 : comments_political_removed_{year}.csv, comments_toxicity_kept_{year}.csv, comments_final_stock_only_{year}.csv
 
-4.  댓글 감성분석
+**4.  댓글 감성분석**
 * 실행 : sentiment_analysis/compute_sentiment.py
 * 입력 : comments_final_stock_only_{year}.csv
 * 출력 : comments_sentiment_{year}.csv
