@@ -30,7 +30,7 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 ### 언어
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
   
-### 주요 패키지: pandas, numpy, matplotlib, scikit-learn, pykrx, requests, beautifulsoup4
+### 주요 패키지
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
