@@ -171,7 +171,7 @@ final_df[final_df["log_return_t+1"].isna()][["date", "log_return_t+1"]]
 #%%
 final_df = final_df.dropna(subset=["log_return_t+1"])
 final_df.head()
-final_df.tail()
+#%%
 final = final_df.iloc[37:,:].copy()
 final.head()
 
@@ -202,5 +202,3 @@ final.head()
 
 #%%
 final.to_csv("/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/KFG_final_2.csv", index=False)
-
-#%%

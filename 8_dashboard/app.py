@@ -83,6 +83,7 @@ def walk_forward_prediction(df, features, target, train_ratio=0.6):
     return result
 
 def load_and_prepare_data():
+    # 개인 로컬에 맞게 수정
     df = pd.read_csv('/Users/user/Desktop/bitamin/26_winter_proj/data/KFG/KFG_final_2.csv')
     df['date'] = pd.to_datetime(df['date'])
     df = df.sort_values('date').reset_index(drop=True).ffill().bfill()
@@ -302,7 +303,7 @@ else:
 
         st.info(f"**현재 시장 상태:** {state_text} / **추세:** {current_trend}")
         
-        if '현금' in position_choice:
+        if '매수' in position_choice:
             st.markdown(f"""<div style="background-color: #2b303a; padding: 15px; border-left: 5px solid {status_color}; border-radius: 5px; margin-top: 10px;">
                 <h4 style="margin-top: 0px; color: {status_color};"> 매수 타이밍 진단</h4><p style="font-size: 1.1em; color: #eeeeee; margin-bottom: 0px;">👉 <b>{buy_guide}</b></p></div>""", unsafe_allow_html=True)
         else:

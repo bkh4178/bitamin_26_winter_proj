@@ -622,3 +622,102 @@ print_performance(final_strategy_df, 'strat_ret_net', f'Hybrid Strategy (Lev {LE
 
 # 결과 확인을 위해 상위 5개 행 출력
 # print(final_strategy_df[['date', 'market_trend', 'weight', 'strat_ret_net']].head())
+
+
+#%%
+# 1. 설정값 세밀화
+FEES = 0.00015
+MAX_LEVERAGE = 2.2  # 기회가 왔을 때 더 공격적으로 (기존 1.8)
+STOP_LOSS_THRESHOLD = -0.03 # 최근 3일 누적 수익률이 -3% 이하면 강제 청산 (MDD 방어)
+
+# 2. 데이터 준비
+sniper_df = res_df.copy()
+sniper_df['date'] = pd.to_datetime(sniper_df['date'])
+
+# KOSPI 종가 및 변동성 데이터 결합
+df_market = df_raw[['date', 'kospi_close']].copy()
+df_market['date'] = pd.to_datetime(df_market['date'])
+sniper_df = pd.merge(sniper_df, df_market, on='date', how='left')
+
+# 3. 추가 지표 계산
+# 최근 20일 변동성 (변동성이 낮을 때만 레버리지 사용하기 위함)
+sniper_df['vol_20d'] = sniper_df['actual'].rolling(20).std() * np.sqrt(252)
+# 최근 3일 수익률 (급락장 감지용)
+sniper_df['recent_ret_3d'] = sniper_df['actual'].rolling(3).sum()
+# 추세 (MA5 & MA20 골든크로스 개념 활용)
+sniper_df['ma5'] = sniper_df['kospi_close'].rolling(5).mean()
+sniper_df['ma20'] = sniper_df['kospi_close'].rolling(20).mean()
+
+# 4. 스나이퍼 가중치 로직 (핵심)
+def get_sniper_weight(row):
+    # (1) 강제 손절 및 시장 붕괴 방어 (Tail Risk Guard)
+    if row['recent_ret_3d'] < STOP_LOSS_THRESHOLD:
+        return 0.0
+
+    # (2) 추세 판별
+    is_uptrend = row['kospi_close'] > row['ma5']
+    is_strong_uptrend = row['ma5'] > row['ma20']
+
+    # (3) 가중치 결정
+    # Case A: 시장이 극도의 공포(KFGI < 25)인데 AI가 상승 예측 -> '스나이퍼' 매수
+    if row['kfgi'] < 25 and row['pred'] > 0.001:
+        return MAX_LEVERAGE
+
+    # Case B: 상승 추세 구간
+    if is_uptrend:
+        if row['pred'] > 0:
+            # 변동성이 낮을 때만 고레버리지, 높으면 1배만 유지 (샤프지수 관리)
+            return MAX_LEVERAGE if row['vol_20d'] < 0.15 else 1.2
+        else:
+            return 0.8 # AI가 부정적이면 비중 축소
+
+    # Case C: 하락 추세 구간
+    else:
+        # 하락장이어도 AI 확신도가 매우 높으면 소량 참여, 아니면 관망(0)
+        return 0.5 if row['pred'] > 0.003 else 0.0
+
+# 5. 수익률 계산
+sniper_df['weight'] = sniper_df.apply(get_sniper_weight, axis=1)
+
+# 수수료 반영 (비중 변경 시 발생)
+sniper_df['turnover'] = sniper_df['weight'].diff().abs().fillna(1.0)
+sniper_df['transaction_cost'] = sniper_df['turnover'] * FEES
+sniper_df['strat_ret_net'] = (sniper_df['weight'] * sniper_df['actual']) - sniper_df['transaction_cost']
+
+# 6. 결과 리포트 함수
+def print_comparison(dfs_labels):
+    results = []
+    for df, label in dfs_labels:
+        ann_ret = df['strat_ret_net'].mean() * 252 if 'strat_ret_net' in df.columns else df['actual'].mean() * 252
+        ann_vol = df['strat_ret_net'].std() * np.sqrt(252) if 'strat_ret_net' in df.columns else df['actual'].std() * np.sqrt(252)
+        sharpe = ann_ret / (ann_vol + 1e-9)
+        cum_ret = np.exp((df['strat_ret_net'] if 'strat_ret_net' in df.columns else df['actual']).cumsum())
+        mdd = (cum_ret / cum_ret.cummax() - 1).min()
+
+        results.append({
+            'Strategy': label,
+            'Ann.Return': f"{ann_ret*100:.2f}%",
+            'Sharpe': f"{sharpe:.3f}",
+            'MDD': f"{mdd*100:.2f}%"
+        })
+    return pd.DataFrame(results)
+
+# 결과 출력
+print("="*55)
+print("🎯 Sniper Hybrid Strategy vs Others")
+print("="*55)
+comparison_df = print_comparison([
+    (res_df, 'Market (Buy & Hold)'),
+    (final_strategy_df, 'Original Hybrid (1.8x)'),
+    (sniper_df, 'Sniper Hybrid (Dynamic)')
+])
+print(comparison_df)
+
+# 시각화
+plt.figure(figsize=(14, 7))
+plt.plot(sniper_df['date'], np.exp(sniper_df['actual'].cumsum()), label='Market', color='gray', alpha=0.3)
+plt.plot(sniper_df['date'], np.exp(sniper_df['strat_ret_net'].cumsum()), label='Sniper Hybrid', color='forestgreen', lw=2.5)
+plt.title("Sharpe Optimization: MDD Defense & Return Boost", fontsize=14)
+plt.legend()
+plt.grid(True, alpha=0.2)
+plt.show()
