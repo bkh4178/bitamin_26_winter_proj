@@ -15,18 +15,27 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 ## 📂 Directory Structure
 ```text
 26_winter_proj/
+│
+├── 1_KFGI_sub_index/        # 기존 FGI 7개 sub_index 생성
+├── 2_Naver_crawling/        # 네이버 기사 및 댓글 크롤링
+├── 3_filtering_final/       # 정치/비주식 댓글 제거
+├── 4_sentiment_analysis/    # 금융 특화 감성 분석
+├── 5_merge_to_final_csv/    # 감성 + 거시지표 병합
+├── 6_KFGI_weight/           # Ridge 기반 KFGI 가중치 산출
+├── 7_modeling_final/        # 시계열 예측 모델
+├── 8_dashboard/             # Streamlit 대시보드
+│
 ├── data/
-│   ├── KFG/          # Fear & Greed 관련 지표 데이터 (gitignore, 로컬 전용)
+│   ├── KFG/                 # sub_index 원본 및 중간 산출물
 │   └── NAVER/
-│     ├─ article/                  # 기사 리스트 CSV
-│     └─ comments/                 # 댓글 CSV
-├─ geonho/
-├─ hyowoon/
-├─ pilho/
-├─ yeowon/
-├─ documents/      # 참고 논문 및 자료
-├─ README.md
-└─ .gitignore
+│       ├── article/         # 기사 목록
+│       ├── comments/        # 댓글 원본
+│       ├── final_filtered/  # 필터링 완료 댓글
+│       └── sentiment_final/ # 일별 감성지표
+│
+├── documents/               # 참고 논문 및 자료
+├── README.md
+└── .gitignore
 ```
 
 ## 🧪 Environment
@@ -61,6 +70,44 @@ data/ 폴더는 GitHub에 올라가지 않으므로, 실행하면 로컬에 결�
 * 입력 : comments_final_stock_only_{year}.csv
 * 출력 : comments_sentiment_{year}.csv
 
+
+**5. 감성지표 + 거시지표 병합**
+* 실행 : 5_merge_to_final_csv/sub_index_merge.py
+* 입력 : KFG sub_index 7개
+	* comments_sentiment_{year}.csv
+	* 출력 : KFG_final_2.csv (일별 통합 데이터)
+
+
+**6. KFGI 지수 산출 (가중치 계산)**
+* 실행 : 6_KFGI_weight/index.py (또는 PCA/FA 버전 스크립트)
+* 입력 :
+	* KFG_with_sentiment.csv
+	* 출력 :
+	* KFGI_final.csv
+	* 가중치 계수 파일 (모델별)
+
+⸻
+
+**7. 수익률 예측 모델링**
+* 실행 : 7_modeling_final/ 내 예측 스크립트
+(예: multi-horizon, validation 등)
+* 입력 :
+	* KFGI_final.csv
+	* KOSPI 로그수익률 데이터
+	* 출력 : prediction_multihorizon.csv
+	* 모델 성능 지표 (RMSE, Directional Accuracy 등)
+
+⸻
+
+**8. 대시보드 시각화**
+* 실행 : 8_dashboard/app.py
+* 입력 : KFGI_final.csv
+* 예측 결과 파일
+* 출력 : Streamlit 기반 시각화 대시보드, KFGI 지수 추이 및 투자 전략 결과 확인
+
+
 ## ⚠️ Notes
 - `data/` 폴더의 csv 파일은 GitHub에 업로드되지 않습니다.
 - 데이터는 별도 경로에서 관리됩니다.
+
+
