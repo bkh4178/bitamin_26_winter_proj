@@ -28,9 +28,7 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 
 ## 🧪 Environment
 - 언어
-  <p align="center">
-  <img src="https://github.com/user-attachments/assets/8353e4ec-8caf-4e75-bb46-82267c5995ac" width="300"/>
-</p>
+  <img src="https://github.com/user-attachments/assets/8353e4ec-8caf-4e75-bb46-82267c5995ac" width="220"/>>
 - 주요 패키지: pandas, numpy, matplotlib, scikit-learn, pykrx, requests, beautifulsoup4
 
 🚀 How to Run (Local)
