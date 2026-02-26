@@ -9,6 +9,9 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 - NAVER 기사 중 핵심 키워드 선정 후 댓글 감성분석을 모델에 추가
 - 시계열 데이터 기반 점수화 및 예측 실험
 
+## Pipeline
+![Pipeline](https://github.com/user-attachments/assets/0d14ddb9-a0ba-40cf-8dc5-1510b4e89f33)
+
 ## 📂 Directory Structure
 ```text
 26_winter_proj/
@@ -31,7 +34,6 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
   
 ### 주요 패키지
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
