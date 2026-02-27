@@ -59,31 +59,31 @@ NAVER 댓글 수집 후 감성분석 통해 K-Fear&Greed Index 구축하고, 시
 ## 🧠 Methodology
 
 **1️⃣ Sub-Index Construction**
-	* KOSPI 기반 7개 시장 심리 관련 지표 수집
-	* 0–100 정규화
-	* 시계열 정렬 및 결측 처리
+* KOSPI 기반 7개 시장 심리 관련 지표 수집
+* 0–100 정규화
+* 시계열 정렬 및 결측 처리
 
 **2️⃣ Sentiment Extraction**
-	* NAVER 뉴스 기사 크롤링
-	* 댓글 필터링 (정치/비주식 제거 + 독성 제거)
-	* 금융 특화 BERT 기반 감성 확률 산출
-	* 일별 감성지표 생성
+* NAVER 뉴스 기사 크롤링
+* 댓글 필터링 (정치/비주식 제거 + 독성 제거)
+* 금융 특화 BERT 기반 감성 확률 산출
+* 일별 감성지표 생성
 
 **3️⃣ Index Aggregation**
-	* Ridge 회귀 기반 가중치 추정
-	* PCA / Factor Analysis 비교
-	* K-FGI 지수 산출
+* Ridge 회귀 기반 가중치 추정
+* PCA / Factor Analysis 비교
+* K-FGI 지수 산출
 
 **4️⃣ Forecasting & Strategy**
-	* Multi-horizon 예측 실험
-	* Directional Accuracy 분석
-	* 전략 수익률 및 샤프지수 비교
+* Multi-horizon 예측 실험
+* Directional Accuracy 분석
+* 전략 수익률 및 샤프지수 비교
 
 
 **5️⃣ Dashboard Visualization**
-	* 실행 : 8_dashboard/app.py
-	* 입력 : KFGI_final.csv, 예측 결과 파일
-	* 출력 : Streamlit 기반 시각화 대시보드, KFGI 지수 추이 및 투자 전략 결과 확인
+* 실행 : 8_dashboard/app.py
+* 입력 : KFGI_final.csv, 예측 결과 파일
+* 출력 : Streamlit 기반 시각화 대시보드, KFGI 지수 추이 및 투자 전략 결과 확인
 
 
 ## ⚠️ Notes
